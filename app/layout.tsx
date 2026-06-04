@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import AttributionCapture from "@/components/AttributionCapture";
 
 // Helvetica Neue oficial (brand pack Thux), convertida para woff2.
 const helvetica = localFont({
@@ -47,7 +48,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={helvetica.variable}>
-      <body>{children}</body>
+      <body>
+        <AttributionCapture />
+        {children}
+      </body>
     </html>
   );
 }

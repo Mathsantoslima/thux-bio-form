@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { sendToGhl } from "@/lib/ghl";
 import { FIELDS, type Answers } from "@/lib/forms";
+import type { AttributionData } from "@/lib/attribution";
 
 export const runtime = "nodejs";
 
 const REQUIRED = FIELDS.map((f) => f.key); // nome, email, whatsapp, empresa, cargo, faturamento
 
 export async function POST(req: Request) {
-  let body: { form?: string; answers?: Answers };
+  let body: { form?: string; answers?: Answers; attribution?: AttributionData };
   try {
     body = await req.json();
   } catch {
@@ -16,6 +17,7 @@ export async function POST(req: Request) {
 
   const kind = body.form === "encontro" ? "encontro" : "prisma";
   const answers: Answers = body.answers || {};
+  const attribution: AttributionData = body.attribution || {};
 
   // Validacao server-side dos campos obrigatorios
   const missing = REQUIRED.filter((k) => !answers[k] || !String(answers[k]).trim());
@@ -26,7 +28,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "E-mail inválido" }, { status: 422 });
   }
 
-  const result = await sendToGhl(kind, answers);
+  const result = await sendToGhl(kind, answers, attribution);
 
   // Mesmo se o GHL falhar, nao quebramos a experiencia do lead na tela final;
   // logamos o erro pro dev investigar. (ok do response reflete o envio real.)
@@ -38,5 +40,7 @@ export async function POST(req: Request) {
     ok: result.ok,
     mode: result.mode,
     qualified: result.qualified,
+    contactId: result.contactId,
+    opportunityId: result.opportunityId,
   });
 }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { FIELDS, type Answers, type FormMeta } from "@/lib/forms";
+import { getAttribution } from "@/lib/attribution";
 import s from "./QualForm.module.css";
 
 interface Props {
@@ -78,7 +79,7 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
         const res = await fetch("/api/lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ form: meta.kind, answers: finalAnswers }),
+          body: JSON.stringify({ form: meta.kind, answers: finalAnswers, attribution: getAttribution() }),
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data?.error || "Falha ao enviar.");
