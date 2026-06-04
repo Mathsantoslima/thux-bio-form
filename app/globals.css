@@ -1,0 +1,84 @@
+/* ============================================
+   THUX · DESIGN SYSTEM OFICIAL (Manual 2024.1)
+   Light. Muito branco. Roxo como cor de marca.
+   Tipografia: Helvetica Neue.
+   ============================================ */
+:root {
+  /* base */
+  --white: #FFFFFF;
+  --paper: #FAF8FE;       /* off-white levemente lilás (seções) */
+  --paper-2: #F2F2F2;     /* cinza claro da paleta */
+  --ink: #161616;         /* preto da marca / texto principal */
+  --ink-2: #3E3A4A;       /* texto secundário */
+  --ink-3: #6E6880;       /* muted (roxo-acinzentado) */
+  --line: rgba(22, 22, 22, 0.10);
+  --line-strong: rgba(22, 22, 22, 0.16);
+
+  /* roxo — paleta oficial */
+  --purple-900: #3D04A1;  /* roxo profundo (blocos escuros) */
+  --purple-700: #7107FF;  /* roxo elétrico — AÇÃO / CTA */
+  --purple-600: #8C28FA;
+  --purple-500: #A94DF2;
+  --purple-300: #D47EE9;
+  --purple-100: #F6E4FA;  /* lilás claro (superfícies, selecionado) */
+
+  --brand-grad: linear-gradient(135deg, #8C28FA 0%, #7107FF 58%, #3D04A1 100%);
+  --brand-grad-soft: linear-gradient(135deg, #A94DF2 0%, #7107FF 100%);
+
+  --ease-soft: cubic-bezier(0.4, 0, 0, 1);
+  --ease-step: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-sans: var(--font-hn), "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background: var(--white);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body { min-height: 100dvh; }
+
+::selection { background: var(--purple-100); color: var(--purple-900); }
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+button { cursor: pointer; }
+
+/* Glow roxo bem sutil — profundidade sem poluir o branco */
+.glow-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(40% 36% at 88% 4%, rgba(140, 40, 250, 0.10) 0%, transparent 60%),
+    radial-gradient(46% 40% at 6% 96%, rgba(113, 7, 255, 0.07) 0%, transparent 60%);
+}
+
+/* Ênfases reutilizáveis em headlines */
+.em-purple { color: var(--purple-700); }
+.em-grad {
+  background: var(--brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}

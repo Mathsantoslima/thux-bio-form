@@ -1,0 +1,132 @@
+// ============================================
+// THUX · CONFIG DOS FORMS DE QUALIFICACAO
+// Campos identicos nos dois forms (Prisma e Encontro).
+// Ordem: nome, email, whatsapp, empresa, cargo, faturamento.
+// As "keys" batem com os custom fields do GHL pra auto-mapping.
+// ============================================
+
+export type FieldType = "text" | "email" | "tel" | "options";
+
+export interface FieldConfig {
+  key: string;
+  type: FieldType;
+  group: string;
+  title: string;
+  hint?: string;
+  placeholder?: string;
+  autocomplete?: string;
+  options?: { value: string; label: string }[];
+}
+
+export const CARGO_OPTIONS = [
+  { value: "Sócio / Proprietário", label: "Sócio / Proprietário" },
+  { value: "CEO / Diretor", label: "CEO / Diretor" },
+  { value: "Gerente / Líder", label: "Gerente / Líder de área" },
+  { value: "Outro", label: "Outro" },
+];
+
+export const FATURAMENTO_OPTIONS = [
+  { value: "Até R$ 500 mil", label: "Até R$ 500 mil" },
+  { value: "R$ 500 mil a R$ 1 milhão", label: "De R$ 500 mil a R$ 1 milhão" },
+  { value: "R$ 1 milhão a R$ 3 milhões", label: "De R$ 1 milhão a R$ 3 milhões" },
+  { value: "R$ 3 milhões a R$ 5 milhões", label: "De R$ 3 milhões a R$ 5 milhões" },
+  { value: "R$ 5 milhões a R$ 10 milhões", label: "De R$ 5 milhões a R$ 10 milhões" },
+  { value: "R$ 10 milhões a R$ 50 milhões", label: "De R$ 10 milhões a R$ 50 milhões" },
+  { value: "R$ 50 milhões a R$ 500 milhões", label: "De R$ 50 milhões a R$ 500 milhões" },
+  { value: "Acima de R$ 500 milhões", label: "Acima de R$ 500 milhões" },
+];
+
+export const FIELDS: FieldConfig[] = [
+  {
+    key: "nome",
+    type: "text",
+    group: "Identificação",
+    title: "Qual é o seu nome completo?",
+    hint: "A gente quer saber com quem está falando.",
+    placeholder: "Digite seu nome aqui...",
+    autocomplete: "name",
+  },
+  {
+    key: "email",
+    type: "email",
+    group: "Contato",
+    title: "Qual é o seu melhor e-mail?",
+    hint: "É por onde mandamos a confirmação e os próximos passos.",
+    placeholder: "nome@empresa.com.br",
+    autocomplete: "email",
+  },
+  {
+    key: "whatsapp",
+    type: "tel",
+    group: "Contato",
+    title: "Qual é o seu WhatsApp?",
+    hint: "Nosso time usa esse número pra entrar em contato.",
+    placeholder: "(11) 99999-9999",
+    autocomplete: "tel",
+  },
+  {
+    key: "empresa",
+    type: "text",
+    group: "A empresa",
+    title: "Qual é o nome da sua empresa?",
+    placeholder: "Digite o nome aqui...",
+    autocomplete: "organization",
+  },
+  {
+    key: "cargo",
+    type: "options",
+    group: "Sobre você",
+    title: "Qual é o seu cargo?",
+    hint: "Selecione a opção que mais se aproxima.",
+    options: CARGO_OPTIONS,
+  },
+  {
+    key: "faturamento",
+    type: "options",
+    group: "A empresa",
+    title: "Qual foi o faturamento da empresa em 2025?",
+    hint: "Isso nos ajuda a entender se faz sentido conversar agora ou em outro momento.",
+    options: FATURAMENTO_OPTIONS,
+  },
+];
+
+export type Answers = Record<string, string>;
+
+// Conteudo textual (sem JSX) de cada form.
+export interface FormMeta {
+  kind: "prisma" | "encontro";
+  headerLabel: string;
+  capaMarker: string;
+  capaCta: string;
+  capaMeta: { label: string; value: string }[];
+  successTag: string;
+  successNote: { label: string; value: string };
+}
+
+export const PRISMA_META: FormMeta = {
+  kind: "prisma",
+  headerLabel: "Aplicação · Programa Prisma",
+  capaMarker: "Programa Prisma · 90 dias dentro da empresa",
+  capaCta: "Iniciar aplicação",
+  capaMeta: [
+    { label: "Empresas atendidas", value: "+200" },
+    { label: "Receita gerada", value: "+R$ 50M" },
+    { label: "Tempo de aplicação", value: "2 minutos" },
+  ],
+  successTag: "Aplicação recebida",
+  successNote: { label: "Tempo médio até o retorno", value: "Em até 24 horas úteis" },
+};
+
+export const ENCONTRO_META: FormMeta = {
+  kind: "encontro",
+  headerLabel: "Inscrição · Encontro de empresários",
+  capaMarker: "Encontro de empresários · 09/06 · 10:30",
+  capaCta: "Quero participar",
+  capaMeta: [
+    { label: "Data", value: "09/06" },
+    { label: "Horário", value: "10:30" },
+    { label: "Formato", value: "Online · ao vivo" },
+  ],
+  successTag: "Inscrição recebida",
+  successNote: { label: "Confirmação da vaga", value: "Falamos com você antes do encontro" },
+};

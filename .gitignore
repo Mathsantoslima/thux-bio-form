@@ -1,0 +1,14 @@
+/node_modules
+/.next
+/out
+.env
+.env*.local
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# artefatos de preview/dev (nao vao pro repo)
+/_preview
+/_site
+shots.cjs
+extract-ds.cjs

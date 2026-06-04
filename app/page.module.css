@@ -1,0 +1,223 @@
+.wrap {
+  position: relative;
+  z-index: 2;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 20px 52px;
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* MARCA */
+.brandRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.logo {
+  height: 30px;
+  width: auto;
+}
+
+/* PERFIL */
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper);
+  padding: 3px;
+  background-image: var(--brand-grad);
+  box-shadow: 0 10px 30px rgba(113, 7, 255, 0.26);
+  margin-bottom: 18px;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  border: 2px solid var(--white);
+}
+.name {
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.handle {
+  font-size: 14px;
+  color: var(--purple-700);
+  margin-top: 5px;
+  font-weight: 500;
+}
+.bio {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-top: 16px;
+  max-width: 380px;
+}
+.bio strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* LINKS PRINCIPAIS */
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.linkCard {
+  display: block;
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  border-radius: 20px;
+  transition: all 220ms var(--ease-soft);
+}
+.linkCard:hover {
+  border-color: var(--purple-300);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(22, 22, 22, 0.07);
+}
+
+/* Card destaque (Encontro) — roxo cheio */
+.featured {
+  border: none;
+  background: var(--brand-grad);
+  color: var(--white);
+  box-shadow: 0 14px 38px rgba(113, 7, 255, 0.26);
+}
+.featured:hover {
+  box-shadow: 0 18px 48px rgba(113, 7, 255, 0.36);
+  border: none;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 14px;
+}
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 14px;
+  opacity: 0.95;
+}
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.82); }
+}
+
+.linkBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.linkText { min-width: 0; }
+.linkTitle {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.linkSub {
+  font-size: 13.5px;
+  margin-top: 5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+.featured .linkSub {
+  color: rgba(255, 255, 255, 0.82);
+}
+.arrow {
+  flex-shrink: 0;
+  color: var(--ink-3);
+  transition: transform 200ms var(--ease-soft), color 200ms var(--ease-soft);
+}
+.linkCard:hover .arrow {
+  transform: translateX(4px);
+  color: var(--purple-700);
+}
+.featured .arrow { color: var(--white); }
+.featured:hover .arrow { transform: translateX(4px); color: var(--white); }
+
+/* LINKS SECUNDARIOS */
+.secondary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+.secLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+  transition: all 180ms var(--ease-soft);
+}
+.secLink:hover {
+  border-color: var(--purple-300);
+  color: var(--purple-700);
+  transform: translateY(-1px);
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.footerMark {
+  height: 13px;
+  width: auto;
+  opacity: 0.7;
+}
