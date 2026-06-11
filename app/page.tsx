@@ -39,7 +39,7 @@ export default function BioPage() {
           <nav className={s.links}>
             <Link href="/encontro" className={`${s.linkCard} ${s.featured}`}>
               <span className={s.liveBadge}>
-                <span className={s.liveDot} /> AO VIVO · 09/06 · 10:30
+                <span className={s.liveDot} /> AO VIVO · TERÇA-FEIRA · 10:30
               </span>
               <div className={s.linkBody}>
                 <div className={s.linkText}>

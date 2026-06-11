@@ -42,7 +42,7 @@
   background: var(--paper);
   padding: 3px;
   background-image: var(--brand-grad);
-  box-shadow: 0 10px 30px rgba(113, 7, 255, 0.26);
+  box-shadow: 0 10px 30px rgba(0, 29, 81, 0.26);
   margin-bottom: 18px;
 }
 .avatar img {
@@ -103,10 +103,10 @@
   border: none;
   background: var(--brand-grad);
   color: var(--white);
-  box-shadow: 0 14px 38px rgba(113, 7, 255, 0.26);
+  box-shadow: 0 14px 38px rgba(0, 29, 81, 0.26);
 }
 .featured:hover {
-  box-shadow: 0 18px 48px rgba(113, 7, 255, 0.36);
+  box-shadow: 0 18px 48px rgba(0, 29, 81, 0.36);
   border: none;
 }
 

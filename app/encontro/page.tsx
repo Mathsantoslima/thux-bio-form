@@ -3,9 +3,9 @@ import QualForm from "@/components/QualForm";
 import { ENCONTRO_META } from "@/lib/forms";
 
 export const metadata: Metadata = {
-  title: "Encontro de empresários · 09/06 · Thux",
+  title: "Encontro de empresários · terça-feira · Thux",
   description:
-    "Inscreva-se no Encontro de empresários sobre IA. Dia 09/06, ao vivo. Vagas limitadas, com curadoria do time Thux.",
+    "Inscreva-se no Encontro de empresários sobre IA. Terça-feira, às 10:30, ao vivo. Vagas limitadas, com curadoria do time Thux.",
 };
 
 export default function EncontroPage() {
@@ -19,14 +19,14 @@ export default function EncontroPage() {
       }
       capaBody={
         <>
-          Dia 09/06, ao vivo, com outros empresários. Sem teoria solta e sem hype. O que dá pra aplicar na
+          Terça-feira, às 10:30, ao vivo, com outros empresários. Sem teoria solta e sem hype. O que dá pra aplicar na
           operação pra crescer receita e margem. Preencha pra garantir a sua vaga.
         </>
       }
       successHead={
         <>
           Inscrição recebida.<br />
-          <span className="em-purple">Te esperamos no dia 09/06.</span>
+          <span className="em-purple">Te esperamos na terça-feira.</span>
         </>
       }
       successBody={

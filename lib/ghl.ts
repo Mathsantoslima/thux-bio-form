@@ -42,7 +42,7 @@ const CF = {
 // Config por formulario. Pra adicionar um form novo, basta uma linha aqui.
 const FORM_CONFIG: Record<"prisma" | "encontro", { source: string; tag: string }> = {
   prisma: { source: "Bio · Aplicação Prisma", tag: "prisma" },
-  encontro: { source: "Bio · Encontro 09/06", tag: "encontro" },
+  encontro: { source: "Bio · Encontro", tag: "encontro" },
 };
 
 // Valor padrao da oportunidade — produto Prisma. Vale p/ todos os forms (Prisma e Encontro).

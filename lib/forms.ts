@@ -92,6 +92,10 @@ export const FIELDS: FieldConfig[] = [
 
 export type Answers = Record<string, string>;
 
+// Valor estimado da OPORTUNIDADE do lead (NAO e' venda) — usado no evento Lead do Meta Pixel.
+// Espelha OPPORTUNITY_VALUE em lib/ghl.ts; manter em sincronia.
+export const LEAD_VALUE_BRL = 37000;
+
 // Conteudo textual (sem JSX) de cada form.
 export interface FormMeta {
   kind: "prisma" | "encontro";
@@ -120,10 +124,10 @@ export const PRISMA_META: FormMeta = {
 export const ENCONTRO_META: FormMeta = {
   kind: "encontro",
   headerLabel: "Inscrição · Encontro de empresários",
-  capaMarker: "Encontro de empresários · 09/06 · 10:30",
+  capaMarker: "Encontro de empresários · terça-feira · 10:30",
   capaCta: "Quero participar",
   capaMeta: [
-    { label: "Data", value: "09/06" },
+    { label: "Dia", value: "Terça-feira" },
     { label: "Horário", value: "10:30" },
     { label: "Formato", value: "Online · ao vivo" },
   ],

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { FIELDS, type Answers, type FormMeta } from "@/lib/forms";
+import { FIELDS, LEAD_VALUE_BRL, type Answers, type FormMeta } from "@/lib/forms";
 import { getAttribution } from "@/lib/attribution";
 import s from "./QualForm.module.css";
 
@@ -84,6 +84,14 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data?.error || "Falha ao enviar.");
         setCurrent(successIdx);
+        // Evento de conversao do Meta Pixel — so dispara no sucesso real do envio.
+        // value = valor ESTIMADO da oportunidade do lead (NAO e' venda; evento Lead, nao Purchase).
+        window.fbq?.("track", "Lead", {
+          value: LEAD_VALUE_BRL,
+          currency: "BRL",
+          content_name: meta.kind === "prisma" ? "Prisma" : "Encontro",
+          content_category: "oportunidade-estimada",
+        });
       } catch (e) {
         setSubmitError((e as Error).message || "Não foi possível enviar agora.");
       } finally {
@@ -291,7 +299,7 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
         <footer className={s.footer}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/thux-symbol-dark.svg" alt="" className={s.footerMark} />
-          <span>{meta.kind === "prisma" ? "Programa Prisma" : "Encontro · 09/06"}</span>
+          <span>{meta.kind === "prisma" ? "Programa Prisma" : "Encontro · terça-feira"}</span>
         </footer>
       </div>
     </>

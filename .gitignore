@@ -13,3 +13,4 @@ next-env.d.ts
 shots.cjs
 extract-ds.cjs
 .playwright-mcp/
+.vercel

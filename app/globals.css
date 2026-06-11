@@ -1,6 +1,6 @@
 /* ============================================
    THUX · DESIGN SYSTEM OFICIAL (Manual 2024.1)
-   Light. Muito branco. Roxo como cor de marca.
+   Light. Muito branco. Azul Imperial como cor de marca (sóbrio, sólido, sem gradiente).
    Tipografia: Helvetica Neue.
    ============================================ */
 :root {
@@ -14,16 +14,17 @@
   --line: rgba(22, 22, 22, 0.10);
   --line-strong: rgba(22, 22, 22, 0.16);
 
-  /* roxo — paleta oficial */
-  --purple-900: #3D04A1;  /* roxo profundo (blocos escuros) */
-  --purple-700: #7107FF;  /* roxo elétrico — AÇÃO / CTA */
-  --purple-600: #8C28FA;
-  --purple-500: #A94DF2;
-  --purple-300: #D47EE9;
-  --purple-100: #F6E4FA;  /* lilás claro (superfícies, selecionado) */
+  /* azul Imperial — paleta oficial (Pantone 2768 C). nomes mantidos por compat. */
+  --purple-900: #00112F;  /* navy profundo (blocos escuros / texto em superfície clara) */
+  --purple-700: #001D51;  /* azul Imperial — AÇÃO / CTA / marca */
+  --purple-600: #0A2C63;  /* hover do CTA */
+  --purple-500: #1D427E;
+  --purple-300: #AFC0DA;  /* bordas (azul-acinzentado claro) */
+  --purple-100: #EAF0F8;  /* azul muito claro (superfícies, selecionado) */
 
-  --brand-grad: linear-gradient(135deg, #8C28FA 0%, #7107FF 58%, #3D04A1 100%);
-  --brand-grad-soft: linear-gradient(135deg, #A94DF2 0%, #7107FF 100%);
+  /* sem gradiente — marca sólida */
+  --brand-grad: #001D51;
+  --brand-grad-soft: #001D51;
 
   --ease-soft: cubic-bezier(0.4, 0, 0, 1);
   --ease-step: cubic-bezier(0.16, 1, 0.3, 1);
@@ -59,15 +60,15 @@ button, input, select, textarea {
 }
 button { cursor: pointer; }
 
-/* Glow roxo bem sutil — profundidade sem poluir o branco */
+/* Glow azul bem sutil — profundidade sem poluir o branco (sóbrio) */
 .glow-bg {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(40% 36% at 88% 4%, rgba(140, 40, 250, 0.10) 0%, transparent 60%),
-    radial-gradient(46% 40% at 6% 96%, rgba(113, 7, 255, 0.07) 0%, transparent 60%);
+    radial-gradient(40% 36% at 88% 4%, rgba(0, 29, 81, 0.05) 0%, transparent 60%),
+    radial-gradient(46% 40% at 6% 96%, rgba(0, 29, 81, 0.04) 0%, transparent 60%);
 }
 
 /* Ênfases reutilizáveis em headlines */
