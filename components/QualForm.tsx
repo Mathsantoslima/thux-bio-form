@@ -33,6 +33,16 @@ function validate(key: string, type: string, value: string): string | null {
 
 const OPTION_KEYS = "ABCDEFGH".split("");
 
+// Faixas de faturamento qualificadas (>= R$3M) — strings idênticas às de lib/forms.ts.
+// Disparam o evento custom QualifiedLead no Meta Pixel.
+const FAT_QUALIFICADO = [
+  "R$ 3 milhões a R$ 5 milhões",
+  "R$ 5 milhões a R$ 10 milhões",
+  "R$ 10 milhões a R$ 50 milhões",
+  "R$ 50 milhões a R$ 500 milhões",
+  "Acima de R$ 500 milhões",
+];
+
 export default function QualForm({ meta, capaHeadline, capaBody, successHead, successBody }: Props) {
   const total = FIELDS.length + 2; // capa + campos + sucesso
   const successIdx = total - 1;
@@ -92,6 +102,10 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
           content_name: meta.kind === "prisma" ? "Prisma" : "Encontro",
           content_category: "oportunidade-estimada",
         });
+        // Evento custom — só leads qualificados (faturamento >= R$3M).
+        if (FAT_QUALIFICADO.includes(finalAnswers.faturamento)) {
+          window.fbq?.("trackCustom", "QualifiedLead");
+        }
       } catch (e) {
         setSubmitError((e as Error).message || "Não foi possível enviar agora.");
       } finally {
