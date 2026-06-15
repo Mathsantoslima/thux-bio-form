@@ -43,6 +43,13 @@ const FAT_QUALIFICADO = [
   "Acima de R$ 500 milhões",
 ];
 
+// Nome do material por form — usado no content_name do evento Lead do Meta Pixel.
+const PIXEL_CONTENT_NAME: Record<string, string> = {
+  prisma: "Prisma",
+  encontro: "Encontro",
+  "raio-x-ia": "Raio-X da Operação",
+};
+
 export default function QualForm({ meta, capaHeadline, capaBody, successHead, successBody }: Props) {
   const total = FIELDS.length + 2; // capa + campos + sucesso
   const successIdx = total - 1;
@@ -70,6 +77,17 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
       return () => clearTimeout(t);
     }
   }, [current, field]);
+
+  // Lead magnet: auto-redirect pro material (Notion) ao chegar na tela de sucesso.
+  // Dispara DEPOIS dos eventos do pixel (Lead/QualifiedLead), entao a conversao e' contabilizada.
+  useEffect(() => {
+    if (current === successIdx && meta.successCta && meta.successRedirectMs) {
+      const t = setTimeout(() => {
+        window.location.href = meta.successCta!.href;
+      }, meta.successRedirectMs);
+      return () => clearTimeout(t);
+    }
+  }, [current, successIdx, meta.successCta, meta.successRedirectMs]);
 
   const setValue = useCallback((key: string, value: string) => {
     setAnswers((a) => ({ ...a, [key]: value }));
@@ -99,7 +117,7 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
         window.fbq?.("track", "Lead", {
           value: LEAD_VALUE_BRL,
           currency: "BRL",
-          content_name: meta.kind === "prisma" ? "Prisma" : "Encontro",
+          content_name: PIXEL_CONTENT_NAME[meta.kind] || meta.kind,
           content_category: "oportunidade-estimada",
         });
         // Evento custom — só leads qualificados (faturamento >= R$3M).
@@ -302,6 +320,15 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
                   {meta.successNote.label}
                   <strong>{meta.successNote.value}</strong>
                 </div>
+                {meta.successCta && (
+                  <a className={s.btnOk} href={meta.successCta.href} target="_blank" rel="noopener noreferrer">
+                    {meta.successCta.label}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </a>
+                )}
                 <Link href="/" className={s.finalBack}>
                   ← Voltar para o perfil
                 </Link>

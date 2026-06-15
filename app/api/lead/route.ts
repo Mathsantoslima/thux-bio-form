@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendToGhl } from "@/lib/ghl";
-import { FIELDS, type Answers } from "@/lib/forms";
+import { FIELDS, type Answers, type FormKind } from "@/lib/forms";
 import type { AttributionData } from "@/lib/attribution";
 
 export const runtime = "nodejs";
@@ -15,7 +15,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "JSON inválido" }, { status: 400 });
   }
 
-  const kind = body.form === "encontro" ? "encontro" : "prisma";
+  const VALID_KINDS: FormKind[] = ["prisma", "encontro", "raio-x-ia"];
+  const kind: FormKind = VALID_KINDS.includes(body.form as FormKind) ? (body.form as FormKind) : "prisma";
   const answers: Answers = body.answers || {};
   const attribution: AttributionData = body.attribution || {};
 

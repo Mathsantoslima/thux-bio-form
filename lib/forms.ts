@@ -96,15 +96,20 @@ export type Answers = Record<string, string>;
 // Espelha OPPORTUNITY_VALUE em lib/ghl.ts; manter em sincronia.
 export const LEAD_VALUE_BRL = 37000;
 
+export type FormKind = "prisma" | "encontro" | "raio-x-ia";
+
 // Conteudo textual (sem JSX) de cada form.
 export interface FormMeta {
-  kind: "prisma" | "encontro";
+  kind: FormKind;
   headerLabel: string;
   capaMarker: string;
   capaCta: string;
   capaMeta: { label: string; value: string }[];
   successTag: string;
   successNote: { label: string; value: string };
+  // Opcional (lead magnet): botao na tela de sucesso + auto-redirect.
+  successCta?: { label: string; href: string };
+  successRedirectMs?: number;
 }
 
 export const PRISMA_META: FormMeta = {
@@ -133,4 +138,23 @@ export const ENCONTRO_META: FormMeta = {
   ],
   successTag: "Inscrição recebida",
   successNote: { label: "Confirmação da vaga", value: "Falamos com você antes do encontro" },
+};
+
+// URL pública da isca no Notion (a confirmar — se não for a página exata, trocar aqui).
+export const RAIOX_NOTION_URL = "https://thux-businesshouse.notion.site/?pvs=74";
+
+export const RAIOX_META: FormMeta = {
+  kind: "raio-x-ia",
+  headerLabel: "Material gratuito · Raio-X da Operação",
+  capaMarker: "Raio-X da Operação · gratuito",
+  capaCta: "Quero meu Raio-X",
+  capaMeta: [
+    { label: "Formato", value: "Prompt pra colar numa IA" },
+    { label: "Tempo", value: "~5 min" },
+    { label: "Custo", value: "Gratuito" },
+  ],
+  successTag: "Material liberado",
+  successNote: { label: "Próximo passo", value: "Abrindo o material…" },
+  successCta: { label: "Acessar o Raio-X da sua Operação", href: RAIOX_NOTION_URL },
+  successRedirectMs: 2500,
 };

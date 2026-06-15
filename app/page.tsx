@@ -60,6 +60,17 @@ export default function BioPage() {
                 <ArrowIcon className={s.arrow} />
               </div>
             </Link>
+
+            <Link href="/raio-x-ia" className={s.linkCard}>
+              <span className={s.eyebrow}>Material gratuito · Diagnóstico</span>
+              <div className={s.linkBody}>
+                <div className={s.linkText}>
+                  <div className={s.linkTitle}>O Raio-X da sua Operação</div>
+                  <div className={s.linkSub}>Descubra onde sua empresa perde tempo e dinheiro.</div>
+                </div>
+                <ArrowIcon className={s.arrow} />
+              </div>
+            </Link>
           </nav>
 
           {/* Links secundários */}

@@ -13,7 +13,7 @@
 // sem chamar o GHL. Isso deixa a validacao visual rodando sem credencial.
 // ============================================
 
-import type { Answers } from "./forms";
+import type { Answers, FormKind } from "./forms";
 import type { AttributionData } from "./attribution";
 
 // Defaults do pipeline Thux (vault clientes/THUX.md)
@@ -40,9 +40,10 @@ const CF = {
 };
 
 // Config por formulario. Pra adicionar um form novo, basta uma linha aqui.
-const FORM_CONFIG: Record<"prisma" | "encontro", { source: string; tag: string }> = {
+const FORM_CONFIG: Record<FormKind, { source: string; tag: string; extraTags?: string[] }> = {
   prisma: { source: "Bio · Aplicação Prisma", tag: "prisma" },
   encontro: { source: "Bio · Encontro", tag: "encontro" },
+  "raio-x-ia": { source: "Bio · Raio-X da Operação", tag: "raio-x", extraTags: ["lead-magnet"] },
 };
 
 // Valor padrao da oportunidade — produto Prisma. Vale p/ todos os forms (Prisma e Encontro).
@@ -171,15 +172,22 @@ function utmCustomFields(attr: AttributionData): Array<{ id: string; field_value
   return out;
 }
 
+// Origem legivel por formulario (usado na nota).
+const ORIGEM_LABEL: Record<FormKind, string> = {
+  prisma: "Aplicação Prisma",
+  encontro: "Encontro de empresários",
+  "raio-x-ia": "O Raio-X da sua Operação (lead magnet)",
+};
+
 // Resumo legivel com todas as respostas — vira a Nota do contato no GHL.
 function buildNote(
-  kind: "prisma" | "encontro",
+  kind: FormKind,
   answers: Answers,
   score: number,
   qualified: boolean,
   attr: AttributionData,
 ): string {
-  const origem = kind === "prisma" ? "Aplicação Prisma" : "Encontro de empresários";
+  const origem = ORIGEM_LABEL[kind] || kind;
   const lines = [
     `Lead via formulário: ${origem}`,
     `Nome: ${answers.nome || "—"}`,
@@ -209,7 +217,7 @@ function buildNote(
 }
 
 export async function sendToGhl(
-  kind: "prisma" | "encontro",
+  kind: FormKind,
   answers: Answers,
   attribution: AttributionData = {},
 ): Promise<GhlResult> {
@@ -227,6 +235,7 @@ export async function sendToGhl(
     "lead-mql",
     "web-form",
     cfg.tag,
+    ...(cfg.extraTags ?? []),
     fatTag.tag,
     qualified ? "mql" : "nao-qualificado",
     tier(score),
