@@ -30,9 +30,14 @@ export default function BioPage() {
             <h1 className={s.name}>Matheus Lima</h1>
             <div className={s.handle}>@mathlimasl</div>
             <p className={s.bio}>
-              Ajudo donos de empresa a transformar <strong>IA em receita, margem e lucro</strong> por dentro da
+              Ajudo dono de empresa a transformar <strong>IA em receita, margem e lucro</strong>, por dentro da
               operação. Sem ferramenta solta, sem teoria. Resultado no caixa.
             </p>
+            <div className={s.cred}>
+              <span><strong>+200</strong> empresas</span>
+              <span className={s.credDot} aria-hidden="true" />
+              <span><strong>+R$ 50M</strong> gerados</span>
+            </div>
           </header>
 
           {/* Links principais */}
@@ -44,7 +49,7 @@ export default function BioPage() {
               <div className={s.linkBody}>
                 <div className={s.linkText}>
                   <div className={s.linkTitle}>Encontro de empresários</div>
-                  <div className={s.linkSub}>IA que vira lucro. Garanta a sua vaga.</div>
+                  <div className={s.linkSub}>IA que vira lucro. Garanta sua vaga.</div>
                 </div>
                 <ArrowIcon className={s.arrow} />
               </div>
@@ -55,7 +60,7 @@ export default function BioPage() {
               <div className={s.linkBody}>
                 <div className={s.linkText}>
                   <div className={s.linkTitle}>Aplique-se para o Prisma</div>
-                  <div className={s.linkSub}>A Thux trabalhando por dentro do seu negócio.</div>
+                  <div className={s.linkSub}>A Thux por dentro do seu negócio. 90 dias.</div>
                 </div>
                 <ArrowIcon className={s.arrow} />
               </div>

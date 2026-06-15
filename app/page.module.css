@@ -77,6 +77,25 @@
   color: var(--ink);
   font-weight: 600;
 }
+.cred {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.cred strong {
+  color: var(--purple-700);
+  font-weight: 700;
+}
+.credDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  opacity: 0.5;
+}
 
 /* LINKS PRINCIPAIS */
 .links {

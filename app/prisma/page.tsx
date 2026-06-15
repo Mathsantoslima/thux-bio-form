@@ -14,13 +14,13 @@ export default function PrismaPage() {
       meta={PRISMA_META}
       capaHeadline={
         <>
-          Vamos descobrir <span className="em-grad">onde a sua empresa</span> está perdendo dinheiro.
+          Vamos achar <span className="em-grad">onde a sua empresa</span> perde dinheiro.
         </>
       }
       capaBody={
         <>
-          A Thux trabalha por dentro de empresas que querem escalar receita com tecnologia. Preencha pra que
-          nosso time avalie se faz sentido conversar sobre o Programa Prisma com vocês.
+          A Thux entra por dentro da sua operação pra transformar IA em receita e margem. Diagnóstico antes de
+          ferramenta. Preencha. O time avalia se faz sentido a gente conversar sobre o Prisma.
         </>
       }
       successHead={
@@ -31,8 +31,8 @@ export default function PrismaPage() {
       }
       successBody={
         <>
-          Nosso time vai analisar as suas respostas e entrar em contato pelo WhatsApp e e-mail que você deixou.
-          Sem reunião comercial vazia, sem apresentação genérica. Pode aguardar.
+          O time analisa suas respostas e te chama no WhatsApp e no e-mail que você deixou. Sem reunião vazia, sem
+          apresentação genérica. Pode aguardar.
         </>
       }
     />

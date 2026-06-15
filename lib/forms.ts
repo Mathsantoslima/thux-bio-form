@@ -107,10 +107,15 @@ export interface FormMeta {
   capaMeta: { label: string; value: string }[];
   successTag: string;
   successNote: { label: string; value: string };
+  // Label do botao de envio no ultimo passo (UX writing por contexto).
+  submitLabel: string;
   // Opcional (lead magnet): botao na tela de sucesso + auto-redirect.
   successCta?: { label: string; href: string };
   successRedirectMs?: number;
 }
+
+// Microcopy de privacidade mostrado nos passos de e-mail e WhatsApp (reduz atrito).
+export const PRIVACY_NOTE = "Seus dados ficam só com o time da Thux. Sem spam.";
 
 export const PRISMA_META: FormMeta = {
   kind: "prisma",
@@ -123,21 +128,23 @@ export const PRISMA_META: FormMeta = {
     { label: "Tempo de aplicação", value: "2 minutos" },
   ],
   successTag: "Aplicação recebida",
-  successNote: { label: "Tempo médio até o retorno", value: "Em até 24 horas úteis" },
+  successNote: { label: "Retorno", value: "Em até 24h úteis" },
+  submitLabel: "Enviar aplicação",
 };
 
 export const ENCONTRO_META: FormMeta = {
   kind: "encontro",
   headerLabel: "Inscrição · Encontro de empresários",
   capaMarker: "Encontro de empresários · terça-feira · 10:30",
-  capaCta: "Quero participar",
+  capaCta: "Garantir minha vaga",
   capaMeta: [
     { label: "Dia", value: "Terça-feira" },
     { label: "Horário", value: "10:30" },
     { label: "Formato", value: "Online · ao vivo" },
   ],
   successTag: "Inscrição recebida",
-  successNote: { label: "Confirmação da vaga", value: "Falamos com você antes do encontro" },
+  successNote: { label: "Sua vaga", value: "Confirmamos antes do encontro" },
+  submitLabel: "Garantir minha vaga",
 };
 
 // URL pública da isca no Notion (a confirmar — se não for a página exata, trocar aqui).
@@ -155,6 +162,7 @@ export const RAIOX_META: FormMeta = {
   ],
   successTag: "Material liberado",
   successNote: { label: "Próximo passo", value: "Abrindo o material…" },
+  submitLabel: "Receber meu Raio-X",
   successCta: { label: "Acessar o Raio-X da sua Operação", href: RAIOX_NOTION_URL },
   successRedirectMs: 2500,
 };

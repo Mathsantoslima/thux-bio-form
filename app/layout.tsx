@@ -17,8 +17,7 @@ const helvetica = localFont({
 });
 
 export const metadata: Metadata = {
-  // TROCAR pelo dominio final no deploy
-  metadataBase: new URL("https://thux-bio.vercel.app"),
+  metadataBase: new URL("https://bio-math.thux.io"),
   title: "Matheus Lima · Thux",
   description:
     "Thux trabalha por dentro de empresas que querem transformar IA em receita, margem e lucro. Sem ferramenta solta. Resultado na operacao.",
@@ -37,7 +36,8 @@ export const metadata: Metadata = {
     title: "Matheus Lima · Thux",
     description: "IA aplicada por dentro da sua empresa. Receita, margem e lucro.",
   },
-  icons: { icon: "/icon.svg", apple: "/icon.svg" },
+  // favicon novo (navy) em /public/icon.png; mantém o svg como fallback se ainda não existir.
+  icons: { icon: [{ url: "/icon.png", type: "image/png" }, { url: "/icon.svg" }], apple: "/icon.png" },
 };
 
 export const viewport: Viewport = {

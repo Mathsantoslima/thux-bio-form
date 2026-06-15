@@ -14,25 +14,25 @@ export default function EncontroPage() {
       meta={ENCONTRO_META}
       capaHeadline={
         <>
-          Um encontro sobre <span className="em-grad">IA que vira lucro</span> na sua empresa.
+          Um encontro sobre <span className="em-grad">IA que vira lucro</span>. Sem hype.
         </>
       }
       capaBody={
         <>
-          Terça-feira, às 10:30, ao vivo, com outros empresários. Sem teoria solta e sem hype. O que dá pra aplicar na
-          operação pra crescer receita e margem. Preencha pra garantir a sua vaga.
+          Terça-feira, 10:30, ao vivo, com outros donos de empresa. O que dá pra aplicar na operação pra crescer
+          receita e margem. Preencha pra garantir sua vaga.
         </>
       }
       successHead={
         <>
           Inscrição recebida.<br />
-          <span className="em-purple">Te esperamos na terça-feira.</span>
+          <span className="em-purple">Te esperamos na terça.</span>
         </>
       }
       successBody={
         <>
-          Recebemos os seus dados. Nosso time confirma a sua vaga e envia os detalhes do encontro pelo WhatsApp e
-          e-mail que você deixou. Fica de olho.
+          Recebemos seus dados. O time confirma sua vaga e manda os detalhes no WhatsApp e no e-mail que você
+          deixou. Fica de olho.
         </>
       }
     />

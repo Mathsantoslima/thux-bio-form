@@ -23,6 +23,10 @@ const DEFAULT_LOCATION_ID = "KKNHDTekS1dDPnUnyeVF";
 const THUX_PIPELINE_ID = "WdobuKIzajvmijLpVPNE";
 const THUX_STAGE_LEAD_ID = "377b3016-caaf-4b36-abec-5b41e1ad852b";
 
+// Proprietaria (owner) de todos os leads + seguidor(es). Users do GHL (location Thux).
+const OWNER_USER_ID = "86xWJYa45z4ETpbmn2bZ"; // Sarah Lima
+const FOLLOWER_USER_IDS = ["jVeSjmoVXyZbBuzTZjPh"]; // Matheus Teles
+
 // IDs dos custom fields (model contact) da location Thux — a API v2 e' confiavel por ID.
 const CF = {
   empresa: "VrYNE1xc6U11HEPXjT0F",
@@ -128,6 +132,29 @@ function ghlHeaders(token: string): Record<string, string> {
   };
 }
 
+// Adiciona seguidor(es) a um contato ou oportunidade. Falha aqui e' soft.
+async function addFollowers(
+  token: string,
+  entity: "contacts" | "opportunities",
+  id: string,
+  followers: string[],
+): Promise<void> {
+  if (!followers.length) return;
+  try {
+    const res = await fetch(`${GHL_BASE}/${entity}/${id}/followers`, {
+      method: "POST",
+      headers: ghlHeaders(token),
+      body: JSON.stringify({ followers }),
+    });
+    if (!res.ok) {
+      const d = (await res.json().catch(() => ({}))) as { message?: string };
+      console.error(`[lead][erro-follower-${entity}]`, res.status, d?.message);
+    }
+  } catch (e) {
+    console.error(`[lead][erro-follower-${entity}]`, (e as Error).message);
+  }
+}
+
 // Fonte (source) da oportunidade — origem inteligente:
 // utm_source [/ utm_medium] quando houver UTM; senao a origem do form.
 function opportunitySource(attr: AttributionData, fallback: string): string {
@@ -190,14 +217,14 @@ function buildNote(
   const origem = ORIGEM_LABEL[kind] || kind;
   const lines = [
     `Lead via formulário: ${origem}`,
-    `Nome: ${answers.nome || "—"}`,
-    `E-mail: ${answers.email || "—"}`,
-    `WhatsApp: ${answers.whatsapp || "—"}`,
-    `Empresa: ${answers.empresa || "—"}`,
-    `Cargo: ${answers.cargo || "—"}`,
-    `Faturamento 2025: ${answers.faturamento || "—"}`,
-    `Score MQL: ${score}/100 — ${qualified ? "Qualificado (≥ R$3M)" : "Não qualificado (< R$3M)"}`,
-    `Oportunidade: ${OPPORTUNITY_PRODUCT} — ${OPPORTUNITY_VALUE_LABEL}`,
+    `Nome: ${answers.nome || "(não informado)"}`,
+    `E-mail: ${answers.email || "(não informado)"}`,
+    `WhatsApp: ${answers.whatsapp || "(não informado)"}`,
+    `Empresa: ${answers.empresa || "(não informado)"}`,
+    `Cargo: ${answers.cargo || "(não informado)"}`,
+    `Faturamento 2025: ${answers.faturamento || "(não informado)"}`,
+    `Score MQL: ${score}/100 · ${qualified ? "Qualificado (≥ R$3M)" : "Não qualificado (< R$3M)"}`,
+    `Oportunidade: ${OPPORTUNITY_PRODUCT} · ${OPPORTUNITY_VALUE_LABEL}`,
   ];
 
   const utm: string[] = [];
@@ -210,7 +237,7 @@ function buildNote(
   if (attr.gclid) utm.push(`gclid: ${attr.gclid}`);
   if (attr.referrer) utm.push(`referrer: ${attr.referrer}`);
 
-  lines.push("", "— Origem / UTM —");
+  lines.push("", "Origem / UTM:");
   lines.push(utm.length ? utm.join("\n") : "Sem UTM (acesso direto / bio)");
 
   return lines.join("\n");
@@ -261,12 +288,13 @@ export async function sendToGhl(
     phone: toE164(answers.whatsapp || ""),
     companyName: answers.empresa,
     source: cfg.source,
+    assignedTo: OWNER_USER_ID,
     tags,
     customFields,
     ...(attributionSource ? { attributionSource } : {}),
   };
 
-  const opportunityName = `${answers.nome || "Lead"} · ${answers.empresa || "—"}`;
+  const opportunityName = `${answers.nome || "Lead"} · ${answers.empresa || "(não informado)"}`;
   const oppSource = opportunitySource(attribution, cfg.source);
 
   // Modo preview: sem token, nao chama o GHL (deixa a validacao visual rodar)
@@ -305,6 +333,9 @@ export async function sendToGhl(
     }
     const contactId = contactData.contact.id;
 
+    // Teles segue o contato.
+    await addFollowers(token, "contacts", contactId, FOLLOWER_USER_IDS);
+
     // Passo 2 — oportunidade na etapa Lead do pipeline Thux (todos os leads). Falha aqui e' soft.
     let opportunityId: string | undefined;
     try {
@@ -320,6 +351,7 @@ export async function sendToGhl(
           status: "open",
           monetaryValue: OPPORTUNITY_VALUE,
           source: oppSource,
+          assignedTo: OWNER_USER_ID,
         }),
       });
       const oppData = (await oppRes.json().catch(() => ({}))) as {
@@ -328,6 +360,8 @@ export async function sendToGhl(
       };
       if (oppRes.ok) {
         opportunityId = oppData?.opportunity?.id;
+        // Teles segue a oportunidade.
+        if (opportunityId) await addFollowers(token, "opportunities", opportunityId, FOLLOWER_USER_IDS);
       } else {
         console.error("[lead][erro-oportunidade]", oppRes.status, oppData?.message);
       }

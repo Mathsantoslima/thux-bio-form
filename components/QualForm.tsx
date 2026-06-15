@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { FIELDS, LEAD_VALUE_BRL, type Answers, type FormMeta } from "@/lib/forms";
+import { FIELDS, LEAD_VALUE_BRL, PRIVACY_NOTE, type Answers, type FormMeta } from "@/lib/forms";
 import { getAttribution } from "@/lib/attribution";
+import { emailRejectionReason, phoneRejectionReason, nameRejectionReason } from "@/lib/validation";
 import s from "./QualForm.module.css";
 
 interface Props {
@@ -26,8 +27,9 @@ function maskPhone(v: string): string {
 function validate(key: string, type: string, value: string): string | null {
   const v = (value || "").trim();
   if (!v) return "Preencha pra continuar.";
-  if (type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Digite um e-mail válido.";
-  if (type === "tel" && v.replace(/\D/g, "").length < 10) return "Digite um WhatsApp válido com DDD.";
+  if (key === "nome") return nameRejectionReason(v);
+  if (type === "email") return emailRejectionReason(v);
+  if (type === "tel") return phoneRejectionReason(v);
   return null;
 }
 
@@ -239,6 +241,7 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
             <section className={s.step} key={field.key}>
               <div className={s.qBadge}>
                 <span className={s.numBox}>{groupNum}</span> {field.group}
+                <span className={s.stepCount}>Etapa {current} de {FIELDS.length}</span>
               </div>
               <h2 className={s.qTitle}>
                 {field.title}
@@ -269,6 +272,7 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
                     ref={inputRef}
                     type="tel"
                     inputMode="numeric"
+                    aria-label={field.title}
                     placeholder={field.placeholder}
                     autoComplete={field.autocomplete}
                     value={answers[field.key] || ""}
@@ -281,6 +285,7 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
                     ref={inputRef}
                     type={field.type}
                     inputMode={field.type === "email" ? "email" : "text"}
+                    aria-label={field.title}
                     placeholder={field.placeholder}
                     autoComplete={field.autocomplete}
                     value={answers[field.key] || ""}
@@ -289,23 +294,42 @@ export default function QualForm({ meta, capaHeadline, capaBody, successHead, su
                 </div>
               )}
 
-              {error && <div className={s.errText}>{error}</div>}
+              {(field.type === "email" || field.type === "tel") && (
+                <p className={s.privacy}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                  {PRIVACY_NOTE}
+                </p>
+              )}
+
+              {error && (
+                <div className={s.errText} role="alert" aria-live="polite">
+                  {error}
+                </div>
+              )}
 
               <div className={s.actions}>
-                <button className={s.btnBack} onClick={prev}>
+                <button type="button" className={s.btnBack} onClick={prev}>
                   ← Voltar
                 </button>
                 {field.type !== "options" && (
-                  <button className={s.btnOk} onClick={next} disabled={submitting}>
-                    {current === lastFieldIdx ? (submitting ? "Enviando..." : "Enviar") : "Continuar"}
+                  <button type="button" className={s.btnOk} onClick={next} disabled={submitting}>
+                    {current === lastFieldIdx ? (submitting ? "Enviando..." : meta.submitLabel) : "Continuar"}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12" />
                       <polyline points="12 5 19 12 12 19" />
                     </svg>
                   </button>
                 )}
+                {field.type !== "options" && <span className={s.enterHint}>↵ Enter</span>}
               </div>
-              {submitError && <div className={s.errText}>{submitError} Tente de novo.</div>}
+              {submitError && (
+                <div className={s.errText} role="alert" aria-live="polite">
+                  {submitError} Tente de novo.
+                </div>
+              )}
             </section>
           )}
 
